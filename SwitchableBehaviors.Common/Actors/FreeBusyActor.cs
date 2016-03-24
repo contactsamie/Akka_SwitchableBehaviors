@@ -1,6 +1,5 @@
-﻿using Akka.Actor;
+using Akka.Actor;
 using SwitchableBehaviors.Common.Messages;
-using System;
 using System.Threading.Tasks;
 
 namespace SwitchableBehaviors.Common.Actors
@@ -15,27 +14,25 @@ namespace SwitchableBehaviors.Common.Actors
 
         private void Busy()
         {
-            Receive<IAmFreeOrBusyMessage>(s =>
+            Receive<YouAreFreeMessage>(message =>
             {
-                // when busy, only accept messages from itself to get free
-                if (s is YouAreFreeMessage && Sender.Equals(Self))
-                {
-                    Context.Sender.Tell(new CurrentlyFreeMessage());
-                    Become(Free);
-                }
-                else if (s is GetBusyMessage )
-                {
-                    Context.Sender.Tell(new StillBusyMessage());
-                }
+                //allow only itself to determine when to become free
+                if (!Sender.Equals(Self)) return;
+                Context.Sender.Tell(new CurrentlyFreeMessage());
+                Become(Free);
+            });
+
+            Receive<GetBusyMessage>(message =>
+            {
+                Context.Sender.Tell(new StillBusyMessage());
             });
         }
 
         private void Free()
         {
             // when free, only "get busy" commands are handled
-            Receive<IAmFreeOrBusyMessage>(s =>
+            Receive<GetBusyMessage>(s =>
             {
-                if (!(s is GetBusyMessage)) return;
                 Context.Sender.Tell(new WasFreeButWillNowGetBusyMessage());
                 // the actor becomes busy, so the next messages are handled differently
                 Become(Busy);
