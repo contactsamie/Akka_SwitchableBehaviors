@@ -18,7 +18,7 @@ namespace SwitchableBehaviors.ConsoleApp
                 for (var i = 0; i < 10; i++)
                 {
                     actor.Tell(new GetBusyMessage() , consoleActorRef);
-                    await Task.Delay(40);
+                    await Task.Delay(500);
                 }
             }).Wait();
 
