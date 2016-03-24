@@ -1,3 +1,4 @@
+//See original code here http://getakka.net/docs/working-with-actors/Switchable%20Behaviors
 using Akka.Actor;
 using SwitchableBehaviors.Common.Messages;
 using System.Threading.Tasks;
