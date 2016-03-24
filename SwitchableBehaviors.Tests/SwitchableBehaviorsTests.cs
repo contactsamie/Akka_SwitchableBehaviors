@@ -57,7 +57,7 @@ namespace SwitchableBehaviors.Tests
         }
 
         [TestMethod]
-        public void actor_cannot_be_told_to_become_free()
+        public void actor_cannot_be_told_to_become_eventually_free()
         {
             //Arrange
             var actor = ActorOf<FreeBusyActor>();
