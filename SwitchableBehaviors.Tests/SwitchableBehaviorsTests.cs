@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
 using Akka.Actor;
-using Akka.TestKit.TestActors;
 using Akka.TestKit.VsTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SwitchableBehaviors.Common.Actors;
@@ -10,10 +7,8 @@ using SwitchableBehaviors.Common.Messages;
 namespace SwitchableBehaviors.Tests
 {
     [TestClass]
-    public class SwitchableBehaviorsTests:TestKit
+    public class SwitchableBehaviorsTests : TestKit
     {
-
-
         [TestMethod]
         public void actor_can_become_busy()
         {
@@ -34,10 +29,10 @@ namespace SwitchableBehaviors.Tests
             var actor = ActorOf<FreeBusyActor>();
 
             //Act
-            actor.Tell(new GetBusyMessage() );
+            actor.Tell(new GetBusyMessage());
             ExpectMsg<WasFreeButWillNowGetBusyMessage>();
 
-            actor.Tell(new GetBusyMessage() );
+            actor.Tell(new GetBusyMessage());
             ExpectMsg<StillBusyMessage>();
         }
 
@@ -57,7 +52,6 @@ namespace SwitchableBehaviors.Tests
             ExpectMsg<WasFreeButWillNowGetBusyMessage>();
         }
 
-
         [TestMethod]
         public void actor_cannot_be_told_to_become_free()
         {
@@ -70,7 +64,5 @@ namespace SwitchableBehaviors.Tests
             //Assert
             ExpectNoMsg();
         }
-
-  
     }
 }
