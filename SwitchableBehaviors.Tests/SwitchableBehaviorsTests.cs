@@ -1,3 +1,4 @@
+using System;
 using Akka.Actor;
 using Akka.TestKit.VsTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -46,10 +47,13 @@ namespace SwitchableBehaviors.Tests
             actor.Tell(new GetBusyMessage());
             ExpectMsg<WasFreeButWillNowGetBusyMessage>();
 
-            System.Threading.Thread.Sleep(3000);
-
-            actor.Tell(new GetBusyMessage());
-            ExpectMsg<WasFreeButWillNowGetBusyMessage>();
+            //  System.Threading.Thread.Sleep(3000);
+            AwaitAssert(() =>
+            {
+                actor.Tell(new GetBusyMessage());
+                ExpectMsg<WasFreeButWillNowGetBusyMessage>();
+            }, TimeSpan.FromSeconds(3000), TimeSpan.FromMilliseconds(250));
+           
         }
 
         [TestMethod]
